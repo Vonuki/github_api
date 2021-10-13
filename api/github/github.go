@@ -22,26 +22,26 @@ func NewGitHubApi(token string) *GitHubApi {
 
 func (a *GitHubApi) GetUserRepos(userName string) (response.GitResponse, error) {
 
-	response := response.GitResponse{}
-	// response.Repos = make([]api.Repo, 0, 10)
+	responseInst := response.GitResponse{}
+	// responseInst.Repos = make([]response.Repo, 0, 10)
 
 	resp, err := http.Get(fmt.Sprintf(a.url, userName))
 	if err != nil {
-		return response, err
+		return responseInst, err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return response, err
+		return responseInst, err
 	}
 
-	err = json.Unmarshal(body, &response.Repos)
+	err = json.Unmarshal(body, &responseInst.Repos)
 	if err != nil {
-		return response, err
+		return responseInst, err
 	}
 
-	response.Status = "succces"
-	return response, nil
+	responseInst.Status = "succces"
+	return responseInst, nil
 
 }
